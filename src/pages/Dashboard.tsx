@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import FinancialOverview from "@/components/FinancialOverview";
 import CreditCardGrid from "@/components/CreditCardGrid";
@@ -97,13 +98,17 @@ const Dashboard = () => {
               Gerencie suas finanças de forma inteligente e compartilhada
             </p>
             <div className="flex flex-wrap gap-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-              <Button variant="gradient" size="lg" className="bg-white text-primary hover:bg-white/90">
-                <TrendingUp className="w-5 h-5 mr-2" />
-                Ver Relatórios
-              </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-                Configurações
-              </Button>
+              <Link to="/reports">
+                <Button variant="gradient" size="lg" className="bg-white text-primary hover:bg-white/90">
+                  <TrendingUp className="w-5 h-5 mr-2" />
+                  Ver Relatórios
+                </Button>
+              </Link>
+              <Link to="/settings">
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+                  Configurações
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
