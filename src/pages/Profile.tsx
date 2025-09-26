@@ -62,7 +62,10 @@ const Profile = () => {
     }
   });
 
-  const handleUpdateProfile = async (formData: FormData) => {
+  const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
@@ -160,7 +163,7 @@ const Profile = () => {
               </CardHeader>
               <CardContent>
                 {isEditing ? (
-                  <form action={handleUpdateProfile} className="space-y-4">
+                  <form onSubmit={handleUpdateProfile} className="space-y-4">
                     <div>
                       <Label htmlFor="displayName">Nome de Exibição</Label>
                       <Input

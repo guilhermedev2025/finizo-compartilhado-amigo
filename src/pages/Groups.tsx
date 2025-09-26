@@ -32,9 +32,9 @@ const Groups = () => {
         .from('groups')
         .select(`
           *,
-          user_groups!inner(
+          user_groups(
             role,
-            profiles(display_name)
+            user_id
           )
         `);
       
@@ -43,7 +43,10 @@ const Groups = () => {
     }
   });
 
-  const handleCreateGroup = async (formData: FormData) => {
+  const handleCreateGroup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
@@ -126,7 +129,7 @@ const Groups = () => {
               <DialogHeader>
                 <DialogTitle>Criar Novo Grupo</DialogTitle>
               </DialogHeader>
-              <form action={handleCreateGroup} className="space-y-4">
+              <form onSubmit={handleCreateGroup} className="space-y-4">
                 <div>
                   <Label htmlFor="name">Nome do Grupo</Label>
                   <Input id="name" name="name" placeholder="Ex: Viagem para a Praia" required />
@@ -208,7 +211,7 @@ const Groups = () => {
                       {group.user_groups?.slice(0, 3).map((member, index) => (
                         <Avatar key={index} className="w-8 h-8 border-2 border-background">
                           <AvatarFallback className="text-xs">
-                            {member.profiles?.display_name?.charAt(0).toUpperCase()}
+                            U
                           </AvatarFallback>
                         </Avatar>
                       ))}
