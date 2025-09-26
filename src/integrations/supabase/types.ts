@@ -200,6 +200,20 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_transactions_credit_card_id"
+            columns: ["credit_card_id"]
+            isOneToOne: false
+            referencedRelation: "credit_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_transactions_group_id"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "transactions_credit_card_id_fkey"
             columns: ["credit_card_id"]
             isOneToOne: false
@@ -238,6 +252,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_user_groups_group_id"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_groups_group_id_fkey"
             columns: ["group_id"]
