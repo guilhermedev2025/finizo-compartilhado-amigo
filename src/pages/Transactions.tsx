@@ -41,8 +41,7 @@ const Transactions = () => {
         .from('transactions')
         .select(`
           *,
-          credit_cards!credit_card_id(name, last_four_digits),
-          groups!group_id(name)
+          credit_cards!credit_card_id(name, last_four_digits)
         `)
         .order('transaction_date', { ascending: false })
         .limit(100); // Limit for better performance
@@ -72,17 +71,15 @@ const Transactions = () => {
     return transactions.reduce((acc, transaction) => {
       const amount = Number(transaction.amount);
       
-      if (transaction.is_shared) {
-        acc.shared += Math.abs(amount);
-      } else if (amount > 0) {
+      if (amount > 0) {
         acc.income += amount;
       } else {
         acc.expenses += Math.abs(amount);
       }
       
-      acc.total = acc.income - acc.expenses - acc.shared;
+      acc.total = acc.income - acc.expenses;
       return acc;
-    }, { income: 0, expenses: 0, shared: 0, total: 0 });
+    }, { income: 0, expenses: 0, total: 0 });
   }, [transactions]);
 
   const getTransactionIcon = (transaction: any) => {
@@ -173,20 +170,6 @@ const Transactions = () => {
                     -{formatCurrency(transactionStats.expenses)}
                   </p>
                   <p className="text-xs text-muted-foreground">Despesas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <CardContent className="pt-6">
-              <div className="flex items-center space-x-2">
-                <Users className="w-8 h-8 text-accent-purple" />
-                <div>
-                  <p className="text-2xl font-bold text-accent-purple">
-                    -{formatCurrency(transactionStats.shared)}
-                  </p>
-                  <p className="text-xs text-muted-foreground">Compartilhadas</p>
                 </div>
               </div>
             </CardContent>
@@ -304,9 +287,9 @@ const Transactions = () => {
                               {transaction.credit_cards.name}
                             </Badge>
                           )}
-                          {transaction.is_shared && transaction.groups && (
+                          {transaction.responsible_person && (
                             <Badge variant="outline" className="text-xs">
-                              {transaction.groups.name}
+                              👤 {transaction.responsible_person}
                             </Badge>
                           )}
                         </div>

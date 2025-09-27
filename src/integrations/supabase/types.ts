@@ -159,11 +159,10 @@ export type Database = {
           created_at: string
           credit_card_id: string | null
           description: string
-          group_id: string | null
           id: string
-          is_shared: boolean | null
           notes: string | null
           payment_type: string
+          responsible_person: string | null
           transaction_date: string
           updated_at: string
           user_id: string
@@ -174,11 +173,10 @@ export type Database = {
           created_at?: string
           credit_card_id?: string | null
           description: string
-          group_id?: string | null
           id?: string
-          is_shared?: boolean | null
           notes?: string | null
           payment_type: string
+          responsible_person?: string | null
           transaction_date?: string
           updated_at?: string
           user_id: string
@@ -189,11 +187,10 @@ export type Database = {
           created_at?: string
           credit_card_id?: string | null
           description?: string
-          group_id?: string | null
           id?: string
-          is_shared?: boolean | null
           notes?: string | null
           payment_type?: string
+          responsible_person?: string | null
           transaction_date?: string
           updated_at?: string
           user_id?: string
@@ -207,24 +204,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "fk_transactions_group_id"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "transactions_credit_card_id_fkey"
             columns: ["credit_card_id"]
             isOneToOne: false
             referencedRelation: "credit_cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "transactions_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "groups"
             referencedColumns: ["id"]
           },
         ]
