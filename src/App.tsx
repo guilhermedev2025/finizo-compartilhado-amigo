@@ -7,7 +7,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Cards from "./pages/Cards";
 import Transactions from "./pages/Transactions";
-import Groups from "./pages/Groups";
+
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Reports from "./pages/Reports";
@@ -26,7 +26,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cards" element={<Cards />} />
           <Route path="/transactions" element={<Transactions />} />
-          <Route path="/groups" element={<Groups />} />
+          
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/reports" element={<Reports />} />

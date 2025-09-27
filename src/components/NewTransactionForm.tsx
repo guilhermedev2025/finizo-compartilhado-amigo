@@ -36,7 +36,6 @@ const categories = [
 
 const NewTransactionForm = ({ isOpen, onClose, onSuccess }: NewTransactionFormProps) => {
   const [date, setDate] = useState<Date>(new Date());
-  const [isShared, setIsShared] = useState(false);
   const [paymentType, setPaymentType] = useState<string>("");
   const { toast } = useToast();
 
@@ -53,17 +52,6 @@ const NewTransactionForm = ({ isOpen, onClose, onSuccess }: NewTransactionFormPr
     }
   });
 
-  const { data: groups } = useQuery({
-    queryKey: ['groups'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('groups')
-        .select('*');
-      
-      if (error) throw error;
-      return data;
-    }
-  });
 
   const handleSubmit = async (formData: FormData) => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -82,8 +70,7 @@ const NewTransactionForm = ({ isOpen, onClose, onSuccess }: NewTransactionFormPr
         payment_type: formData.get('paymentType') as string,
         credit_card_id: paymentType === 'credit' ? (formData.get('creditCard') as string) : null,
         category: formData.get('category') as string,
-        group_id: isShared ? (formData.get('group') as string) : null,
-        is_shared: isShared,
+        responsible_person: formData.get('responsiblePerson') as string || null,
         notes: formData.get('notes') as string || null,
       });
 
@@ -221,28 +208,14 @@ const NewTransactionForm = ({ isOpen, onClose, onSuccess }: NewTransactionFormPr
             </Popover>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch id="shared" checked={isShared} onCheckedChange={setIsShared} />
-            <Label htmlFor="shared">Transação compartilhada</Label>
+          <div className="space-y-2">
+            <Label htmlFor="responsiblePerson">Pessoa Responsável (opcional)</Label>
+            <Input 
+              id="responsiblePerson" 
+              name="responsiblePerson" 
+              placeholder="Ex: João Silva" 
+            />
           </div>
-
-          {isShared && (
-            <div className="space-y-2">
-              <Label htmlFor="group">Grupo</Label>
-              <Select name="group">
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione um grupo" />
-                </SelectTrigger>
-                <SelectContent>
-                  {groups?.map((group) => (
-                    <SelectItem key={group.id} value={group.id}>
-                      {group.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
 
           <div className="space-y-2">
             <Label htmlFor="notes">Observações (opcional)</Label>
